@@ -1,4 +1,4 @@
-package max.bes.shifttest.ui.theme
+package max.bes.shifttest.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
