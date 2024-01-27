@@ -11,7 +11,9 @@ import max.bes.shifttest.core.data.db.AppDatabase
 import max.bes.shifttest.core.data.network.NetworkClient
 import max.bes.shifttest.core.data.network.RandomUserApiService
 import max.bes.shifttest.core.data.network.RetrofitNetworkClient
+import max.bes.shifttest.users.data.UserRepositoryImpl
 import max.bes.shifttest.users.data.db.dao.UserDao
+import max.bes.shifttest.users.domain.UserRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -50,6 +52,12 @@ class DataModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RandomUserApiService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(networkClient: NetworkClient, dao: UserDao): UserRepository {
+        return UserRepositoryImpl(networkClient, dao)
     }
 
     companion object {

@@ -14,11 +14,11 @@ interface UserDao {
     suspend fun saveUser(entity: UserEntity)
 
     @Insert
-    fun insertAllUsers(vararg users: UserEntity)
+    suspend fun insertAllUsers(users: List<UserEntity>)
 
     @Query("SELECT * FROM users_table")
     suspend fun getAllUsers(): List<UserEntity>
 
     @Delete
-    fun deleteAllUsers(vararg users: UserEntity)
+    suspend fun deleteAllUsers(users: List<UserEntity>)
 }
