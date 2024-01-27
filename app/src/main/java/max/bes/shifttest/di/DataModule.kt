@@ -13,7 +13,7 @@ import max.bes.shifttest.core.data.network.RandomUserApiService
 import max.bes.shifttest.core.data.network.RetrofitNetworkClient
 import max.bes.shifttest.users.data.UserRepositoryImpl
 import max.bes.shifttest.users.data.db.dao.UserDao
-import max.bes.shifttest.users.domain.UserRepository
+import max.bes.shifttest.users.domain.repositories.UserRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

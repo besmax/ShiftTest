@@ -10,7 +10,7 @@ import max.bes.shifttest.core.data.network.RetrofitNetworkClient.Companion.CODE_
 import max.bes.shifttest.core.data.network.RetrofitNetworkClient.Companion.CODE_SUCCESS
 import max.bes.shifttest.users.data.db.dao.UserDao
 import max.bes.shifttest.users.data.mappers.map
-import max.bes.shifttest.users.domain.UserRepository
+import max.bes.shifttest.users.domain.repositories.UserRepository
 import max.bes.shifttest.users.domain.mappers.map
 import max.bes.shifttest.users.domain.models.ErrorType
 import max.bes.shifttest.users.domain.models.User
@@ -38,5 +38,9 @@ class UserRepositoryImpl(
 
     override suspend fun getFromDb(): List<User> {
         return dao.getAllUsers().map { it.map() }
+    }
+
+    override suspend fun clearDb() {
+        dao.deleteAllUsers()
     }
 }

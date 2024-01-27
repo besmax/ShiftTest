@@ -1,4 +1,4 @@
-package max.bes.shifttest.users.domain
+package max.bes.shifttest.users.domain.repositories
 
 import kotlinx.coroutines.flow.Flow
 import max.bes.shifttest.users.domain.models.User
@@ -10,4 +10,6 @@ interface UserRepository {
     suspend fun insertListToDb(users: List<User>)
 
     suspend fun getFromDb(): List<User>
+
+    suspend fun clearDb()
 }
