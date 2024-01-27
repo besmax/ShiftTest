@@ -33,7 +33,6 @@ class RetrofitNetworkClient(
         }
     }
 
-
     companion object {
         const val CODE_NO_INTERNET = -1
         const val CODE_SUCCESS = 200
