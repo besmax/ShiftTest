@@ -6,6 +6,8 @@
     <string name="error">Ошибка, попробуйте позже</string>
     <string name="uri_mailto">mailto:</string>
     <string name="tel">tel:%1$s</string>
+    <string name="email">email: </string>
+    <string name="phone">phone: </string>
     <string name="coordinates">http://maps.google.com/maps?q=loc:%1$s, %2$s</string>
     <string name="refresh">Обновить</string>
 
