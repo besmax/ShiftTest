@@ -4,9 +4,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,10 +35,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import max.bes.shifttest.R
 import max.bes.shifttest.core.ui.elements.Loading
+import max.bes.shifttest.core.ui.navigation.Screen
 import max.bes.shifttest.core.ui.theme.Blue
 import max.bes.shifttest.core.ui.theme.CardBgColor
 import max.bes.shifttest.users.domain.models.User
@@ -44,13 +48,20 @@ import max.bes.shifttest.users.presentation.UsersScreenState
 import max.bes.shifttest.users.presentation.UsersViewModel
 
 @Composable
-fun UsersScreen(viewModel: UsersViewModel = hiltViewModel()) {
+fun UsersScreen(navController: NavController, viewModel: UsersViewModel = hiltViewModel()) {
 
     val uiState by viewModel.screenState.observeAsState(initial = UsersScreenState.Loading)
 
     UsersScreenContent(
         uiState = uiState,
-        onUserItemClick = { },
+        onUserItemClick = { userId ->
+            navController.navigate(
+                Screen.UserDetailsScreen.route.replace(
+                    "{userId}",
+                    userId.toString()
+                )
+            )
+        },
         refreshUsers = viewModel::updateUsersFromNetwork,
         onEmailClick = viewModel::sendEmail,
         onPhoneClick = viewModel::makePhoneCall,
@@ -168,7 +179,7 @@ fun UserListItem(
 
         ) {
             AsyncImage(
-                model = user.pictureLarge,
+                model = user.pictureMedium,
                 contentDescription = "${user.firstName} ${user.lastName} picture",
                 error = painterResource(id = R.drawable.user_picture_placeholder),
                 placeholder = painterResource(id = R.drawable.user_picture_placeholder),
@@ -177,6 +188,7 @@ fun UserListItem(
                     .size(96.dp)
                     .clip(RoundedCornerShape(4.dp)),
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
                     text = "${user.firstName} ${user.lastName}"

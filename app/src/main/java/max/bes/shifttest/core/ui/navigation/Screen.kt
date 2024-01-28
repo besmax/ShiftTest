@@ -9,5 +9,5 @@ sealed class Screen(
     @DrawableRes val iconResId: Int? = null
 ) {
     object UsersScreen : Screen("usersScreen")
-    object UserDetailsScreen : Screen("userDetailsScreen/{user}")
+    object UserDetailsScreen : Screen("userDetailsScreen/{userId}")
 }

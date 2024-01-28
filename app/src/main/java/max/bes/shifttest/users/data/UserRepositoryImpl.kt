@@ -53,4 +53,10 @@ class UserRepositoryImpl(
             dao.deleteAllUsers()
         }
     }
+
+    override suspend fun getUserById(id: Int, dispatcher: CoroutineDispatcher): User? {
+        return withContext(dispatcher) {
+            dao.getUserById(id)
+        }
+    }
 }

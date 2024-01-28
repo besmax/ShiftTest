@@ -13,4 +13,6 @@ interface UserRepository {
     suspend fun getFromDb(dispatcher: CoroutineDispatcher): List<User>
 
     suspend fun clearDb(dispatcher: CoroutineDispatcher)
+
+    suspend fun getUserById(id: Int, dispatcher: CoroutineDispatcher): User?
 }
