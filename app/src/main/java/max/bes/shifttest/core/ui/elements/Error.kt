@@ -3,6 +3,7 @@ package max.bes.shifttest.core.ui.elements
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,7 +14,10 @@ import max.bes.shifttest.R
 import max.bes.shifttest.users.domain.models.ErrorType
 
 @Composable
-fun Error(error: ErrorType) {
+fun Error(
+    error: ErrorType,
+    refresh: () -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(top = 140.dp)
@@ -29,5 +33,8 @@ fun Error(error: ErrorType) {
                 }
             )
         )
+        Button(onClick = { refresh() }) {
+            Text(text = stringResource(id = R.string.refresh))
+        }
     }
 }

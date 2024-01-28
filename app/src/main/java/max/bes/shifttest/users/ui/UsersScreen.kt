@@ -28,13 +28,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.delay
 import max.bes.shifttest.R
-import max.bes.shifttest.core.ui.elements.Error
 import max.bes.shifttest.core.ui.elements.Loading
 import max.bes.shifttest.core.ui.theme.Blue
 import max.bes.shifttest.core.ui.theme.CardBgColor
@@ -54,6 +55,7 @@ fun UsersScreen(viewModel: UsersViewModel = hiltViewModel()) {
         onEmailClick = viewModel::sendEmail,
         onPhoneClick = viewModel::makePhoneCall,
         onAddressClick = { latitude, longitude -> viewModel.openMap(latitude, longitude) },
+        onErrorRefresh = viewModel::getUsers
     )
 
 }
@@ -66,12 +68,16 @@ fun UsersScreenContent(
     onEmailClick: (String) -> Unit,
     onPhoneClick: (String) -> Unit,
     onAddressClick: (String, String) -> Unit,
-
-    ) {
+    onErrorRefresh: () -> Unit
+) {
 
     when (uiState) {
         is UsersScreenState.Loading -> Loading()
-        is UsersScreenState.Error -> Error(error = uiState.error)
+        is UsersScreenState.Error -> max.bes.shifttest.core.ui.elements.Error(
+            error = uiState.error,
+            refresh = onErrorRefresh
+        )
+
         is UsersScreenState.Content -> UserList(
             uiState.users,
             onUserItemClick,
@@ -108,15 +114,6 @@ fun UserList(
             .nestedScroll(state.nestedScrollConnection),
         contentAlignment = Alignment.Center
     ) {
-
-        PullToRefreshContainer(
-            modifier = Modifier
-                .align(Alignment.TopCenter),
-            state = state,
-            contentColor = Blue,
-            containerColor = if (!state.isRefreshing) Color.Transparent
-            else MaterialTheme.colorScheme.background
-        )
         LazyColumn(
             modifier = Modifier
                 .padding(vertical = 12.dp)
@@ -136,6 +133,14 @@ fun UserList(
                 }
             }
         }
+        PullToRefreshContainer(
+            modifier = Modifier
+                .align(Alignment.TopCenter),
+            state = state,
+            contentColor = Blue,
+            containerColor = if (!state.isRefreshing) Color.Transparent
+            else MaterialTheme.colorScheme.background
+        )
     }
 }
 
@@ -179,17 +184,23 @@ fun UserListItem(
                 Text(
                     text = "${user.country} ${user.city}",
                     fontSize = 12.sp,
+                    color = Blue,
+                    style = TextStyle(textDecoration = TextDecoration.Underline),
                     modifier = Modifier.clickable { onAddressClick(user.latitude, user.longitude) }
                 )
                 Text(
                     text = user.phone,
                     fontSize = 12.sp,
+                    color = Blue,
+                    style = TextStyle(textDecoration = TextDecoration.Underline),
                     modifier = Modifier.clickable { onPhoneClick(user.phone) }
                 )
 
                 Text(
                     text = user.email,
                     fontSize = 12.sp,
+                    color = Blue,
+                    style = TextStyle(textDecoration = TextDecoration.Underline),
                     modifier = Modifier.clickable { onEmailClick(user.email) }
                 )
             }
