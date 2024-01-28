@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface RandomUserApiService {
 
-    @GET("?results=15")
+    @GET("?results=500")
     suspend fun getUsers(): Response<UsersResponse>
 
 
