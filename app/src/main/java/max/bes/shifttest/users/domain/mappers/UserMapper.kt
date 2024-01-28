@@ -14,4 +14,6 @@ fun User.map(): UserEntity = UserEntity(
     pictureLarge = pictureLarge,
     pictureMedium = pictureMedium,
     pictureThumbnail = pictureThumbnail,
+    latitude = latitude,
+    longitude = longitude
 )

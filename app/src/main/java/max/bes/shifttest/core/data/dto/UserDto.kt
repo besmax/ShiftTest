@@ -4,6 +4,9 @@ data class UserDto(
     val gender: String,
     val name: NameDto,
     val location: LocationDto,
+    val email: String,
+    val phone: String,
+    val picture: PictureDto,
 )
 
 data class NameDto(
@@ -17,11 +20,9 @@ data class LocationDto(
     val city: String,
     val state: String,
     val country: String,
-    val postcode: String,
+    val postcode: Int,
     val coordinates: CoordinatesDto,
-    val email: String,
-    val phone: String,
-    val picture: PictureDto,
+
 )
 
 data class StreetDto(

@@ -10,11 +10,13 @@ fun UserDto.mapToEntity(): UserEntity = UserEntity(
     lastName = name.last,
     country = location.country,
     city = location.city,
-    email = location.email,
-    phone = location.phone,
-    pictureLarge = location.picture.large,
-    pictureMedium = location.picture.medium,
-    pictureThumbnail = location.picture.thumbnail,
+    email = email,
+    phone = phone,
+    pictureLarge = picture.large,
+    pictureMedium = picture.medium,
+    pictureThumbnail = picture.thumbnail,
+    latitude = location.coordinates.latitude,
+    longitude = location.coordinates.longitude
 )
 
 fun UserDto.map(): User = User(
@@ -23,9 +25,11 @@ fun UserDto.map(): User = User(
     lastName = name.last,
     country = location.country,
     city = location.city,
-    email = location.email,
-    phone = location.phone,
-    pictureLarge = location.picture.large,
-    pictureMedium = location.picture.medium,
-    pictureThumbnail = location.picture.thumbnail,
+    email = email,
+    phone = phone,
+    pictureLarge = picture.large,
+    pictureMedium = picture.medium,
+    pictureThumbnail = picture.thumbnail,
+    latitude = location.coordinates.latitude,
+    longitude = location.coordinates.longitude
 )

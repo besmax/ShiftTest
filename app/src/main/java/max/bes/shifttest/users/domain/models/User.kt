@@ -11,4 +11,6 @@ data class User(
     val pictureLarge: String,
     val pictureMedium: String,
     val pictureThumbnail: String,
+    val latitude: String,
+    val longitude: String
 )

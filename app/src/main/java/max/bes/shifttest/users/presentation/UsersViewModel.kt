@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import max.bes.shifttest.core.domain.ExternalNavigator
 import max.bes.shifttest.users.domain.models.ErrorType
 import max.bes.shifttest.users.domain.repositories.UserRepository
 import max.bes.shifttest.users.domain.usecases.GetUsersUseCase
@@ -15,20 +18,25 @@ import javax.inject.Inject
 @HiltViewModel
 class UsersViewModel @Inject constructor(
     private val getUsersUseCase: GetUsersUseCase,
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val externalNavigator: ExternalNavigator
 ) : ViewModel() {
 
     private val _screenState = MutableLiveData<UsersScreenState>()
     val screenState: LiveData<UsersScreenState> = _screenState
+    private var job: Job? = null
 
     init {
         getUsers()
     }
 
     fun getUsers() {
+        if (job?.isActive == true) return
+
         _screenState.value = UsersScreenState.Loading
-        viewModelScope.launch {
-            getUsersUseCase.execute().collect() { response ->
+
+        job = viewModelScope.launch {
+            getUsersUseCase.execute(Dispatchers.IO).collect() { response ->
                 when (response) {
                     is Resource.Success -> {
                         if (!response.data.isNullOrEmpty()) {
@@ -52,8 +60,21 @@ class UsersViewModel @Inject constructor(
 
     fun updateUsersFromNetwork() {
         viewModelScope.launch {
-            repository.clearDb()
+            repository.clearDb(Dispatchers.IO)
             getUsers()
         }
+    }
+
+    fun sendEmail(address: String) {
+        externalNavigator.sendEmail(address)
+    }
+
+    fun makePhoneCall(phoneNumber: String) {
+        externalNavigator.makePhoneCall(phoneNumber)
+    }
+
+
+    fun openMap(latitude: String, longitude: String) {
+        externalNavigator.openMap(latitude, longitude)
     }
 }

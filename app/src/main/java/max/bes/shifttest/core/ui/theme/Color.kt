@@ -9,3 +9,9 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+val Blue = Color(android.graphics.Color.parseColor("#03A9F4"))
+val LightGray = Color(android.graphics.Color.parseColor("#F6F6F6"))
+val DarkGray = Color(android.graphics.Color.parseColor("#222222"))
+
+val CardBgColor = Color.White

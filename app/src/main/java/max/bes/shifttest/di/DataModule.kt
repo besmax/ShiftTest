@@ -11,9 +11,9 @@ import max.bes.shifttest.core.data.db.AppDatabase
 import max.bes.shifttest.core.data.network.NetworkClient
 import max.bes.shifttest.core.data.network.RandomUserApiService
 import max.bes.shifttest.core.data.network.RetrofitNetworkClient
-import max.bes.shifttest.users.data.UserRepositoryImpl
 import max.bes.shifttest.users.data.db.dao.UserDao
-import max.bes.shifttest.users.domain.repositories.UserRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -47,20 +47,22 @@ class DataModule {
     @Singleton
     @Provides
     fun provideRandomUserApiService(): RandomUserApiService {
+        val interceptor = HttpLoggingInterceptor()
+            .apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
+        val client = OkHttpClient()
+            .newBuilder()
+            .addInterceptor(interceptor)
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RandomUserApiService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideUserRepository(networkClient: NetworkClient, dao: UserDao): UserRepository {
-        return UserRepositoryImpl(networkClient, dao)
-    }
-
     companion object {
-        private const val baseUrl = "https://randomuser.me/api"
+        private const val baseUrl = "https://randomuser.me/api/"
     }
 }

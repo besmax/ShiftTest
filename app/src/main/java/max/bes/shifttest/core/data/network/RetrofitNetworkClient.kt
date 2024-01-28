@@ -1,6 +1,7 @@
 package max.bes.shifttest.core.data.network
 
 import android.content.Context
+import android.util.Log
 import max.bes.shifttest.core.data.dto.requests.UsersRequest
 import max.bes.shifttest.core.data.dto.responses.Response
 
@@ -20,15 +21,17 @@ class RetrofitNetworkClient(
         }
     }
 
-    private fun getUsers(request: UsersRequest): Response {
+    private suspend fun getUsers(request: UsersRequest): Response {
         return try {
             val response = randomUserApiService.getUsers()
             if (response.code() == CODE_SUCCESS && response.body() != null) {
+                Log.d("RetrofitNetworkClient", response.body().toString())
                 response.body()!!.apply { resultCode = CODE_SUCCESS }
             } else {
                 Response().apply { resultCode = CODE_SERVER_ERROR }
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             Response().apply { resultCode = CODE_SERVER_ERROR }
         }
     }

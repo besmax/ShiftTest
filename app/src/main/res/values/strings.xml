@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ShiftTest</string>
+    <string name="error_no_internet">Нет доступа в интернет, проверьте соединение</string>
+    <string name="error_server">Ошибка сервера</string>
+    <string name="error_no_content">По запросу ничего не найдено</string>
+    <string name="error">Ошибка, попробуйте позже</string>
+    <string name="uri_mailto">mailto:</string>
+    <string name="tel">tel:%1$s</string>
+    <string name="coordinates">http://maps.google.com/maps?q=loc:%1$s, %2$s</string>
+
 </resources>
